@@ -45,11 +45,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Building.cs" />
      <Compile Include="Assets\CameraMove.cs" />
      <Compile Include="Assets\CityScript.cs" />
-     <Compile Include="Assets\Foobar.cs" />
+     <Compile Include="Assets\GManager.cs" />
+     <Compile Include="Assets\PlayerScript.cs" />
      <Compile Include="Assets\SelectionManager.cs" />
      <Compile Include="Assets\TankMove.cs" />
+     <Compile Include="Assets\Terrain.cs" />
+     <Compile Include="Assets\TerrainClickHandler.cs" />
+     <Compile Include="Assets\Unit.cs" />
      <None Include="Assets\Little War Machines\readme.txt" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
