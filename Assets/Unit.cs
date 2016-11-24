@@ -15,10 +15,20 @@ public class Unit : MonoBehaviour {
 	Vector3 currentMoveTarget;
 	NavMeshAgent navAgent;
 	public int team;
-	
+
 	// Use this for initialization
 	void Start () {
 		navAgent = GetComponent<NavMeshAgent> ();
+//		foreach(Component i in gameObject.GetComponentsInChildren<Material>()) {
+//			if (i.name == "colour_units") {
+//				GameObject foo = i.gameObject;
+//				Shader s = foo.GetComponent<Shader> ();
+//				s = GManager.colors [team];
+//
+//			}
+//		}
+
+//		transform.FindChild
 	}
 	
 	// Update is called once per frame

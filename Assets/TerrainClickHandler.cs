@@ -18,8 +18,19 @@ public class TerrainClickHandler : MonoBehaviour {
 			if (Camera.main == null) {
 				return;
 			}
+			int clicks = 0;
+			foreach(GameObject g in GameObject.FindObjectsOfType<GameObject>()) {
+				if (g.GetComponent<Collider> () != null) {
+					Ray r = Camera.main.ScreenPointToRay (Input.mousePosition);
+					if (g.GetComponent<Collider> ().Raycast (r, out hit, Mathf.Infinity)) {
+						clicks += 1;
+					}
+				}
+			}
+
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if (goTerrain.GetComponent<Collider>().Raycast(ray, out hit, Mathf.Infinity)) {
+			if (goTerrain.GetComponent<Collider>().Raycast(ray, out hit, Mathf.Infinity) && clicks == 1) {
+				print ("Num clicks is " + clicks);
 				print ("We have clicked on the terrain!");
 				GameObject t = new GameObject ();
 				t.tag = "target";
@@ -29,5 +40,4 @@ public class TerrainClickHandler : MonoBehaviour {
 			}
 		}
 	}
-
 }

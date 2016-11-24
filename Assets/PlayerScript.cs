@@ -9,7 +9,7 @@ public class PlayerScript : NetworkBehaviour {
 	public List<Unit> selected;
 	public int team;
 	public static Dictionary<int, PlayerScript> players;
-	public static Dictionary<int, Material> colors;
+
 
 	// Use this for initialization
 	void Start () {
