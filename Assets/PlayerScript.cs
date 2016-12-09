@@ -42,4 +42,13 @@ public class PlayerScript : NetworkBehaviour {
 			selected.RemoveAt (0);
 		}
 	}
+
+	public static PlayerScript getLocalPlayer() {
+		foreach(PlayerScript s in players.Values) {
+			if (s.isLocalPlayer) {
+				return s;
+			}
+		}
+		return null;
+	}
 }

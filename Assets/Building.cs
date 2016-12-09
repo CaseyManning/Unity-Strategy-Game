@@ -27,6 +27,7 @@ public class Building : Unit {
 				print ("We have clicked on the city!");
 				GameObject g = GManager.main.tankDefinition;
 				g.transform.position = transform.position;
+				g.GetComponent<Unit> ().team = team;
 				Instantiate (g);
 			}
 		}

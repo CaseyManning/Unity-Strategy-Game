@@ -50,18 +50,30 @@
      <Compile Include="Assets\CityScript.cs" />
      <Compile Include="Assets\GManager.cs" />
      <Compile Include="Assets\PlayerScript.cs" />
+     <Compile Include="Assets\RTS_Camera\Demo\DemoScene.cs" />
+     <Compile Include="Assets\RTS_Camera\Demo\TargetSelector.cs" />
+     <Compile Include="Assets\RTS_Camera\Scripts\RTS_Camera.cs" />
      <Compile Include="Assets\SelectionManager.cs" />
-     <Compile Include="Assets\TankMove.cs" />
      <Compile Include="Assets\Terrain.cs" />
      <Compile Include="Assets\TerrainClickHandler.cs" />
      <Compile Include="Assets\Unit.cs" />
+     <None Include="Assets\RTS_Camera\Demo\Projectors\Guidelines.txt" />
      <None Include="Assets\Little War Machines\readme.txt" />
+     <None Include="Assets\RTS_Camera\Demo\Projectors\Shaders\ProjectorLight.shader" />
+     <None Include="Assets\RTS_Camera\Demo\Projectors\Shaders\ProjectorMultiply.shader" />
+ <Reference Include="Assembly-UnityScript-firstpass">
+ <HintPath>/Users/casmann/Downloads/WarStrategy/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{610F097C-B8F5-1DE0-0A1E-96BF284E5B59}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

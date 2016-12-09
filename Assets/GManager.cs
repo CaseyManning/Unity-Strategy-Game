@@ -11,7 +11,9 @@ public class GManager : MonoBehaviour {
 
 	public static GManager main;
 	// Use this for initialization
+
 	void Start () {
+		colors = new Dictionary<int, Material>();
 		
 		if (main == null) {
 			main = this;
