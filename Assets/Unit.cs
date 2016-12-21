@@ -16,10 +16,14 @@ public class Unit : MonoBehaviour {
 	NavMeshAgent navAgent;
 	public int team;
 	public GameObject selection;
+	public bool debug = false;
+	int count = 0;
+	public bool teamexist = false;
+	public bool isTestEnemy = false;
 
-	// Use this for initialization
-	void Start () {
-		selection = transform.Find ("Selection").gameObject;
+	public void Start () {
+		print("Is the navagent null? " + (navAgent == null).ToString() );
+		//selection = transform.Find ("Selection").gameObject;
 		navAgent = GetComponent<NavMeshAgent> ();
 
 //		foreach(Component i in gameObject.GetComponentsInChildren<Material>()) {
@@ -33,9 +37,17 @@ public class Unit : MonoBehaviour {
 
 //		transform.FindChild
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	public void Update () {
+
+		if(debug) {
+			if(count == 5) {
+				print("My attack target is " + currentAttackTarget.ToString());
+				count = 0;
+			} else {
+				count += 1;
+			}
+		}
 
 //		if (!(PlayerScript.players.ContainsKey (team))) {
 //			return;
@@ -49,14 +61,17 @@ public class Unit : MonoBehaviour {
 //			return;
 //		}
 		if (PlayerScript.players.ContainsKey (team) && PlayerScript.players [team].selected.Contains(this)) {
-			selection.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+			//selection.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 		} else {
-			selection.transform.position = new Vector3(transform.position.x, -20, transform.position.z);
+			//selection.transform.position = new Vector3(transform.position.x, -20, transform.position.z);
 		}
 		GameObject[] targets = GameObject.FindGameObjectsWithTag ("target");
 		if (PlayerScript.players.ContainsKey (team) && targets.Length > 0 && PlayerScript.players[team].selected.Contains(this)) {
 			currentMoveTarget = targets[0].transform.position;
-			navAgent.destination = targets [0].transform.position;
+			//print("Nav agent destination is null?" + navAgent.destination == null);
+			navAgent.destination = currentMoveTarget;
+			Destroy(targets[0]);
+			//targets[0].removeFromParent();
 		}
 
 		if (currentAttackTarget != null) {
@@ -75,7 +90,7 @@ public class Unit : MonoBehaviour {
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (gameObject.GetComponent<Collider>().Raycast(ray, out hit, Mathf.Infinity)) {
-				print ("We have clicked on the vehicle!");
+				print ("We clicked on the vehicle!");
 				if (!Input.GetKey (KeyCode.LeftShift)) {
 					PlayerScript.players [team].deselectAll ();
 				}
@@ -86,8 +101,11 @@ public class Unit : MonoBehaviour {
 
 			}
 		}
-
-		if (Input.GetMouseButtonDown (0) && (!(PlayerScript.players.ContainsKey (team)) || !(PlayerScript.players [team].isLocalPlayer))) {
+		//teamexist = PlayerScript.players.ContainsKey (team);
+		if(isTestEnemy) {
+			print("Is it my player? " + (!(PlayerScript.players.ContainsKey (team)) || !(PlayerScript.players [team].isLocalPlayer)).ToString());
+		}
+		if (Input.GetMouseButtonDown (1) && (!(PlayerScript.players.ContainsKey (team)) || !(PlayerScript.players [team].isLocalPlayer))) {
 			RaycastHit hit;
 			print ("Clicked by the enemy!");
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

@@ -8,13 +8,13 @@ public class Building : Unit {
 
 	// Use this for initialization
 	void Start () {
-		
+		base.Start ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
-
+		base.Update ();
 
 		if (Camera.main == null) {
 			return;
@@ -24,11 +24,11 @@ public class Building : Unit {
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			if (gameObject.GetComponent<Collider> ().Raycast (ray, out hit, Mathf.Infinity)) {
-				print ("We have clicked on the city!");
-				GameObject g = GManager.main.tankDefinition;
-				g.transform.position = transform.position;
-				g.GetComponent<Unit> ().team = team;
-				Instantiate (g);
+				//print ("We have clicked on the city!");
+//				GameObject g = GManager.main.tankDefinition;
+//				g.transform.position = transform.position;
+//				g.GetComponent<Unit> ().team = team;
+//				Instantiate (g);
 			}
 		}
 	}
