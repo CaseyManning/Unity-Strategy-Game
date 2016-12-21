@@ -70,7 +70,7 @@ public class Unit : MonoBehaviour {
 			currentMoveTarget = targets[0].transform.position;
 			//print("Nav agent destination is null?" + navAgent.destination == null);
 			navAgent.destination = currentMoveTarget;
-			//currentAttackTarget = null;
+			currentAttackTarget = null;
 			Destroy(targets[0]);
 			//targets[0].removeFromParent();
 		}
