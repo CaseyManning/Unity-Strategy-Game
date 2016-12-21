@@ -9,7 +9,7 @@ public class Unit : MonoBehaviour {
 	double speed;
 	int attackDamage;
 	float attackSpeed;
-	double range = 3;
+	double range = 2;
 	float cooldown;
 	public GameObject currentAttackTarget;
 	Vector3 currentMoveTarget;
@@ -41,7 +41,7 @@ public class Unit : MonoBehaviour {
 	public void Update () {
 
 		if(debug) {
-			if(count == 5) {
+			if(count == 5 && currentAttackTarget != null) {
 				print("My attack target is " + currentAttackTarget.ToString());
 				count = 0;
 			} else {
@@ -60,25 +60,28 @@ public class Unit : MonoBehaviour {
 //		if (!(PlayerScript.players [team].isLocalPlayer)) {
 //			return;
 //		}
-		if (PlayerScript.players.ContainsKey (team) && PlayerScript.players [team].selected.Contains(this)) {
+		//if (PlayerScript.players.ContainsKey (team) && PlayerScript.players [team].selected.Contains(this)) {
 			//selection.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-		} else {
+		//} else {
 			//selection.transform.position = new Vector3(transform.position.x, -20, transform.position.z);
-		}
+		//}
 		GameObject[] targets = GameObject.FindGameObjectsWithTag ("target");
 		if (PlayerScript.players.ContainsKey (team) && targets.Length > 0 && PlayerScript.players[team].selected.Contains(this)) {
 			currentMoveTarget = targets[0].transform.position;
 			//print("Nav agent destination is null?" + navAgent.destination == null);
 			navAgent.destination = currentMoveTarget;
+			//currentAttackTarget = null;
 			Destroy(targets[0]);
 			//targets[0].removeFromParent();
 		}
 
 		if (currentAttackTarget != null) {
 			print ("I have a target!");
+			print ("Is my target a unit? " + (currentAttackTarget.GetComponent<Unit> () != null).ToString());
 			if (currentAttackTarget.GetComponent<Unit> () != null) {
 				if (Vector3.Distance (currentAttackTarget.transform.position, gameObject.transform.position) <= range) {
 					//attack (currentTarget);
+					navAgent.destination = transform.position;
 				} else {
 					navAgent.destination = currentAttackTarget.transform.position;
 				}
@@ -103,7 +106,7 @@ public class Unit : MonoBehaviour {
 		}
 		//teamexist = PlayerScript.players.ContainsKey (team);
 		if(isTestEnemy) {
-			print("Is it my player? " + (!(PlayerScript.players.ContainsKey (team)) || !(PlayerScript.players [team].isLocalPlayer)).ToString());
+			//print("Is it my player? " + (!(PlayerScript.players.ContainsKey (team)) || !(PlayerScript.players [team].isLocalPlayer)).ToString());
 		}
 		if (Input.GetMouseButtonDown (1) && (!(PlayerScript.players.ContainsKey (team)) || !(PlayerScript.players [team].isLocalPlayer))) {
 			RaycastHit hit;
