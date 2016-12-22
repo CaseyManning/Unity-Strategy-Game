@@ -40,31 +40,13 @@ public class Unit : MonoBehaviour {
 
 	public void Update () {
 
-		if(debug) {
-			if(count == 5 && currentAttackTarget != null) {
-				print("My attack target is " + currentAttackTarget.ToString());
-				count = 0;
-			} else {
-				count += 1;
-			}
-		}
-
-//		if (!(PlayerScript.players.ContainsKey (team))) {
-//			return;
-//		}
-//
-//		if (PlayerScript.players [team] == null) {
-//			return;
-//		}
-//
-//		if (!(PlayerScript.players [team].isLocalPlayer)) {
-//			return;
-//		}
 		//if (PlayerScript.players.ContainsKey (team) && PlayerScript.players [team].selected.Contains(this)) {
 			//selection.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 		//} else {
 			//selection.transform.position = new Vector3(transform.position.x, -20, transform.position.z);
 		//}
+
+		//If the player has clicked on the terrain to create a move target, move towards it
 		GameObject[] targets = GameObject.FindGameObjectsWithTag ("target");
 		if (PlayerScript.players.ContainsKey (team) && targets.Length > 0 && PlayerScript.players[team].selected.Contains(this)) {
 			currentMoveTarget = targets[0].transform.position;
@@ -73,11 +55,10 @@ public class Unit : MonoBehaviour {
 			currentAttackTarget = null;
 			Destroy(targets[0]);
 			//targets[0].removeFromParent();
-		}
+		
 
+		//If the unit is supposed to be attacking something, either move towards it, or damage it
 		if (currentAttackTarget != null) {
-			print ("I have a target!");
-			print ("Is my target a unit? " + (currentAttackTarget.GetComponent<Unit> () != null).ToString());
 			if (currentAttackTarget.GetComponent<Unit> () != null) {
 				if (Vector3.Distance (currentAttackTarget.transform.position, gameObject.transform.position) <= range) {
 					attack (currentAttackTarget);
@@ -89,6 +70,7 @@ public class Unit : MonoBehaviour {
 		
 		}
 			
+		//If the player clicks on the unit, select it
 		if (PlayerScript.players.ContainsKey (team) && Input.GetMouseButtonDown (0) && PlayerScript.players [team].isLocalPlayer) {
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -104,13 +86,10 @@ public class Unit : MonoBehaviour {
 
 			}
 		}
-		//teamexist = PlayerScript.players.ContainsKey (team);
-		if(isTestEnemy) {
-			//print("Is it my player? " + (!(PlayerScript.players.ContainsKey (team)) || !(PlayerScript.players [team].isLocalPlayer)).ToString());
-		}
+
+		//If the unit is clicked by the enemy, tell all the enemy's selected units to attack it
 		if (Input.GetMouseButtonDown (1) && (!(PlayerScript.players.ContainsKey (team)) || !(PlayerScript.players [team].isLocalPlayer))) {
 			RaycastHit hit;
-			print ("Clicked by the enemy!");
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (gameObject.GetComponent<Collider>().Raycast(ray, out hit, Mathf.Infinity)) {
 				print ("Clicked by the enemy!");
