@@ -55,7 +55,7 @@ public class Unit : MonoBehaviour {
 			currentAttackTarget = null;
 			Destroy(targets[0]);
 			//targets[0].removeFromParent();
-		
+		}
 
 		//If the unit is supposed to be attacking something, either move towards it, or damage it
 		if (currentAttackTarget != null) {
