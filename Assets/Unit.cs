@@ -3,14 +3,14 @@ using System.Collections;
 
 public class Unit : MonoBehaviour {
 
-	int health = 1;
+	int health = 20;
 	int cost;
 	int creationTime;
 	double speed;
-	int attackDamage;
-	float attackSpeed;
+	int attackDamage = 1;
+	float attackSpeed = 1;
 	double range = 2;
-	float cooldown;
+	float attackCooldown = 20;
 	public GameObject currentAttackTarget;
 	Vector3 currentMoveTarget;
 	NavMeshAgent navAgent;
@@ -80,7 +80,7 @@ public class Unit : MonoBehaviour {
 			print ("Is my target a unit? " + (currentAttackTarget.GetComponent<Unit> () != null).ToString());
 			if (currentAttackTarget.GetComponent<Unit> () != null) {
 				if (Vector3.Distance (currentAttackTarget.transform.position, gameObject.transform.position) <= range) {
-					//attack (currentTarget);
+					attack (currentAttackTarget);
 					navAgent.destination = transform.position;
 				} else {
 					navAgent.destination = currentAttackTarget.transform.position;
@@ -121,18 +121,23 @@ public class Unit : MonoBehaviour {
 			}
 		}
 
+		if(isTestEnemy) {
+			print("My health is: " + health.ToString());
+		}
+
 		if (health <= 0) {
 			die ();
 		}
 	}
 
-	void attack(Unit target) {
-		
-		if (cooldown <= 0) {
-			target.health -= attackDamage;
-			cooldown = attackSpeed;
+	void attack(GameObject target) {
+		print("Attacking in progress...");
+		print(Time.deltaTime);
+		if (attackCooldown <= 0) {
+			target.GetComponent<Unit>().health -= attackDamage;
+			attackCooldown = attackSpeed;
 		} else {
-				cooldown -= Time.deltaTime;
+			attackCooldown -= Time.deltaTime*100;
 		}
 	}
 
