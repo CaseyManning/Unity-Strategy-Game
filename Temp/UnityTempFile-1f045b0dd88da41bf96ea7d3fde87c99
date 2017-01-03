@@ -88,6 +88,7 @@
 'Assets/Building.cs'
 'Assets/CameraMove.cs'
 'Assets/CityScript.cs'
+'Assets/Factory.cs'
 'Assets/GManager.cs'
 'Assets/PlayerScript.cs'
 'Assets/RTS_Camera/Demo/DemoScene.cs'

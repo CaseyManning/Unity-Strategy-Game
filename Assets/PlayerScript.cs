@@ -9,12 +9,14 @@ public class PlayerScript : NetworkBehaviour {
 	public List<Unit> selected;
 	public int team;
 	public static Dictionary<int, PlayerScript> players;
+	public List<Unit> units;
 
 
 	// Use this for initialization
 	void Start () {
 		if (players == null) {
 			players = new Dictionary<int, PlayerScript> ();
+			units = new List<Unit> ();
 		}
 		team = players.Count;
 		players.Add (team, this);
@@ -25,10 +27,12 @@ public class PlayerScript : NetworkBehaviour {
 	}
 		
 	void Update () {
-			GameObject[] units = GameObject.FindGameObjectsWithTag ("Unit");
-			foreach(GameObject u in units) {
+		units.Clear ();
+			GameObject[] allunits = GameObject.FindGameObjectsWithTag ("Unit");
+			foreach(GameObject u in allunits) {
 			if(u.GetComponent<Unit>().team == team) {
 				u.GetComponent<NetworkIdentity> ().AssignClientAuthority (this.connectionToClient);
+				units.Add (u.GetComponent<Unit>());
 			}
 		}
 	}

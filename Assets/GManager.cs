@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GManager : MonoBehaviour {
 
 	public Material team1;
 	public Material team2;
-	public GameObject tankDefinition = null;
+	public static GameObject tankDefinition = null;
 	public static Dictionary<int, Material> colors;
+	public static GameObject factoryDefinition;
 
 	public static GManager main;
 	// Use this for initialization
@@ -26,5 +28,10 @@ public class GManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+		foreach (PlayerScript player in PlayerScript.players.Values) {
+			if (player.units.Count == 0) {
+				//kill the player
+			}
+		}
 	}
 }

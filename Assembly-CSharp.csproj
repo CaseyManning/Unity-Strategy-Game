@@ -48,6 +48,7 @@
      <Compile Include="Assets\Building.cs" />
      <Compile Include="Assets\CameraMove.cs" />
      <Compile Include="Assets\CityScript.cs" />
+     <Compile Include="Assets\Factory.cs" />
      <Compile Include="Assets\GManager.cs" />
      <Compile Include="Assets\PlayerScript.cs" />
      <Compile Include="Assets\RTS_Camera\Demo\DemoScene.cs" />
