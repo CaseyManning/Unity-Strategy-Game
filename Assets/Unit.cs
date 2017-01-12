@@ -75,7 +75,7 @@ public class Unit : MonoBehaviour {
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (gameObject.GetComponent<Collider>().Raycast(ray, out hit, Mathf.Infinity)) {
-				print ("We clicked on the vehicle!");
+				print ("We clicked on the unit!");
 				if (!Input.GetKey (KeyCode.LeftShift)) {
 					PlayerScript.players [team].deselectAll ();
 				}
@@ -96,12 +96,7 @@ public class Unit : MonoBehaviour {
 				foreach (Unit i in PlayerScript.getLocalPlayer().selected) {
 					i.currentAttackTarget = gameObject;
 				}
-
 			}
-		}
-
-		if(isTestEnemy) {
-			print("My health is: " + health.ToString());
 		}
 
 		if (health <= 0) {

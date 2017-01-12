@@ -30,6 +30,7 @@ public class GManager : MonoBehaviour {
 	
 		foreach (PlayerScript player in PlayerScript.players.Values) {
 			if (player.units.Count == 0) {
+				//end the game
 				//kill the player
 			}
 		}
