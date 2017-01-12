@@ -47,8 +47,11 @@
   <ItemGroup>
      <Compile Include="Assets\RTS_Camera\Scripts\Editor\LayoutHelpers.cs" />
      <Compile Include="Assets\RTS_Camera\Scripts\Editor\RTS_CameraEditor.cs" />
+     <None Include="Assets\Lobby\Documentation.txt" />
      <None Include="Assets\RTS_Camera\Demo\Projectors\Guidelines.txt" />
+     <None Include="Assets\Lobby\Instruction.txt" />
      <None Include="Assets\Little War Machines\readme.txt" />
+     <None Include="Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\RTS_Camera\Demo\Projectors\Shaders\ProjectorLight.shader" />
      <None Include="Assets\RTS_Camera\Demo\Projectors\Shaders\ProjectorMultiply.shader" />
  <Reference Include="Assembly-UnityScript-firstpass">

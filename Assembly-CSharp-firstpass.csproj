@@ -46,8 +46,11 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
+     <None Include="Assets\Lobby\Documentation.txt" />
      <None Include="Assets\RTS_Camera\Demo\Projectors\Guidelines.txt" />
+     <None Include="Assets\Lobby\Instruction.txt" />
      <None Include="Assets\Little War Machines\readme.txt" />
+     <None Include="Assets\Fonts\OpenSans\License!.txt" />
      <None Include="Assets\RTS_Camera\Demo\Projectors\Shaders\ProjectorLight.shader" />
      <None Include="Assets\RTS_Camera\Demo\Projectors\Shaders\ProjectorMultiply.shader" />
  <Reference Include="UnityEngine.Networking">
