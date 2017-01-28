@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Factory : Building {
 
 	// Use this for initialization
-	void Start () {
+	public void Start () {
 		base.Start ();
-		createableUnits.Add ("q", GManager.tankDefinition);
+		createableUnits = new Dictionary<string, GameObject> ();
+		GameObject tank = (GameObject) Resources.Load("Assets/Resources/Tank");
+		createableUnits.Add ("q", tank);
+		print ("It's a tank! ");
+		print(tank);
 	}
 
-	void Update() {
+	public void Update() {
 		base.Update ();
 	}
 }

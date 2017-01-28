@@ -62,11 +62,13 @@
      <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyServerEntry.cs" />
      <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyServerList.cs" />
      <Compile Include="Assets\Lobby\Scripts\Lobby\LobbyTopPanel.cs" />
+     <Compile Include="Assets\NetworkLobbyHook.cs" />
      <Compile Include="Assets\PlayerScript.cs" />
      <Compile Include="Assets\RTS_Camera\Demo\DemoScene.cs" />
      <Compile Include="Assets\RTS_Camera\Demo\TargetSelector.cs" />
      <Compile Include="Assets\RTS_Camera\Scripts\RTS_Camera.cs" />
      <Compile Include="Assets\SelectionManager.cs" />
+     <Compile Include="Assets\Tank.cs" />
      <Compile Include="Assets\Terrain.cs" />
      <Compile Include="Assets\TerrainClickHandler.cs" />
      <Compile Include="Assets\Unit.cs" />

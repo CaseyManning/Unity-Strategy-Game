@@ -20,13 +20,18 @@ public class PlayerScript : NetworkBehaviour {
 		}
 		team = players.Count;
 		players.Add (team, this);
-
-
-
+		//this.GetComponent<NetworkIdentity> ().AssignClientAuthority (this.connectionToClient);
 
 	}
 		
 	void Update () {
+//		foreach(PlayerScript player in players.Values) {
+//			print ("-----");
+//			print ("Players are " + player.team);
+//		}
+
+		//print (players.ContainsKey(0));
+
 		units.Clear ();
 			GameObject[] allunits = GameObject.FindGameObjectsWithTag ("Unit");
 			foreach(GameObject u in allunits) {
@@ -35,6 +40,30 @@ public class PlayerScript : NetworkBehaviour {
 				units.Add (u.GetComponent<Unit>());
 			}
 		}
+	}
+
+	void LateUpdate () {
+//		GameObject[] cameras = GameObject.FindObjectsOfType<GameObject>();
+//		foreach (GameObject c in cameras) {
+//			if (c.tag.Contains ("Camera")) {
+//				if (c.GetComponent<PlayerScript> ().team != team) {
+//					c.tag = "Camera";
+//				} else {
+//					c.tag = "MainCamera";
+//				}
+//			}
+//		}
+		GameObject[] players = GameObject.FindGameObjectsWithTag ("MainCamera");
+		foreach(GameObject i in players) {
+			print ("Wheeee");
+			i.GetComponent<Camera>().enabled = false;
+			if (i.GetComponent<NetworkIdentity>() != null) {
+				Destroy (i.GetComponent<NetworkTransform> ());
+				Destroy (i.GetComponent<NetworkIdentity> ());
+			}
+		}
+		gameObject.GetComponent<Camera>().enabled = true;
+
 	}
 
 	public void addSelectedUnit(Unit add) {

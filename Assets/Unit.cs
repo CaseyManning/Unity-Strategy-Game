@@ -3,14 +3,14 @@ using System.Collections;
 
 public class Unit : MonoBehaviour {
 
-	int health = 20;
-	int cost;
-	int creationTime;
-	double speed;
-	int attackDamage = 1;
-	float attackSpeed = 1;
-	double range = 2;
-	float attackCooldown = 20;
+	public int health = 20;
+	public int cost;
+	public int creationTime;
+	public double speed;
+	public int attackDamage = 1;
+	public float attackSpeed = 1;
+	public double range = 2;
+	public float attackCooldown = 20;
 	public GameObject currentAttackTarget;
 	Vector3 currentMoveTarget;
 	NavMeshAgent navAgent;
@@ -39,24 +39,24 @@ public class Unit : MonoBehaviour {
 	}
 
 	public void Update () {
-
 		//if (PlayerScript.players.ContainsKey (team) && PlayerScript.players [team].selected.Contains(this)) {
 			//selection.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 		//} else {
 			//selection.transform.position = new Vector3(transform.position.x, -20, transform.position.z);
 		//}
-
 		//If the player has clicked on the terrain to create a move target, move towards it
 		GameObject[] targets = GameObject.FindGameObjectsWithTag ("target");
-		if (PlayerScript.players.ContainsKey (team) && targets.Length > 0 && PlayerScript.players[team].selected.Contains(this)) {
-			currentMoveTarget = targets[0].transform.position;
-			//print("Nav agent destination is null?" + navAgent.destination == null);
-			navAgent.destination = currentMoveTarget;
-			currentAttackTarget = null;
-			Destroy(targets[0]);
-			//targets[0].removeFromParent();
+		if (PlayerScript.players.ContainsKey (team)) {
+			print ("Why do I have to print this?");
+			if (PlayerScript.players.ContainsKey (team) && targets.Length > 0 && PlayerScript.players [team].selected.Contains (this)) {
+				currentMoveTarget = targets [0].transform.position;
+				//print("Nav agent destination is null?" + navAgent.destination == null);
+				navAgent.destination = currentMoveTarget;
+				currentAttackTarget = null;
+				Destroy (targets [0]);
+				//targets[0].removeFromParent();
+			}
 		}
-
 		//If the unit is supposed to be attacking something, either move towards it, or damage it
 		if (currentAttackTarget != null) {
 			if (currentAttackTarget.GetComponent<Unit> () != null) {
