@@ -3,23 +3,25 @@ using System.Collections;
 
 public class Unit : MonoBehaviour {
 
+	public string name;
 	public int health = 20;
 	public int cost;
 	public int creationTime;
-	public double speed;
+	public float speed = 3;
 	public int attackDamage = 1;
-	public float attackSpeed = 1;
+	public float attackSpeed = 0.3f;
 	public double range = 2;
-	public float attackCooldown = 20;
+	float attackCooldown = 0;
 	public GameObject currentAttackTarget;
 	Vector3 currentMoveTarget;
 	NavMeshAgent navAgent;
 	public int team;
 	public GameObject selection;
 	public bool debug = false;
+	public GameObject attackProjectile;
 	int count = 0;
 	public bool teamexist = false;
-	public bool isTestEnemy = false;
+	public float projectileSpeed = 5f;
 
 	public void Start () {
 		print("Is the navagent null? " + (navAgent == null).ToString() );
@@ -36,9 +38,16 @@ public class Unit : MonoBehaviour {
 //		}
 
 //		transform.FindChild
+		if (gameObject.GetComponent<Building> () == null) {
+			gameObject.GetComponent<NavMeshAgent> ().speed = speed;
+		}
 	}
 
 	public void Update () {
+
+		if (PlayerScript.players == null) {
+			return;
+		}
 		//if (PlayerScript.players.ContainsKey (team) && PlayerScript.players [team].selected.Contains(this)) {
 			//selection.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
 		//} else {
@@ -106,12 +115,16 @@ public class Unit : MonoBehaviour {
 
 	void attack(GameObject target) {
 		print("Attacking in progress...");
-		print(Time.deltaTime);
 		if (attackCooldown <= 0) {
+			transform.LookAt (target.transform);
 			target.GetComponent<Unit>().health -= attackDamage;
 			attackCooldown = attackSpeed;
+			GameObject g = Instantiate (attackProjectile);
+			g.GetComponent<ProjectileScript> ().target = currentAttackTarget;
+			g.GetComponent<ProjectileScript> ().speed = projectileSpeed;
+			g.transform.position = transform.position;
 		} else {
-			attackCooldown -= Time.deltaTime*100;
+			attackCooldown -= Time.deltaTime;
 		}
 	}
 

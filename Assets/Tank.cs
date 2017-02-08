@@ -12,8 +12,6 @@ public class Tank : Unit {
 		attackDamage = 1;
 		attackSpeed = 1;
 		range = 2;
-		attackCooldown = 20;
-
 	}
 	
 	// Update is called once per frame

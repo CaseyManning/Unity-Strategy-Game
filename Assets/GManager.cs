@@ -11,6 +11,8 @@ public class GManager : MonoBehaviour {
 	public Material team2;
 	public static Dictionary<int, Material> colors;
 	public static GameObject factoryDefinition;
+	public GameObject[] UnitDefinitions; 
+	public GameObject UIresourceText;
 
 	public static GManager main;
 	// Use this for initialization
@@ -30,6 +32,11 @@ public class GManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (PlayerScript.players == null) {
+			return;
+		}
+
 		foreach (PlayerScript player in PlayerScript.players.Values) {
 			if (player.units.Count == 0) {
 				//end the game

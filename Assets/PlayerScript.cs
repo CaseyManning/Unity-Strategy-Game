@@ -2,10 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class PlayerScript : NetworkBehaviour {
 
-	public int resources = 0;
+	public float resources = 0;
 	public List<Unit> selected;
 	public int team;
 	public static Dictionary<int, PlayerScript> players;
@@ -23,15 +24,9 @@ public class PlayerScript : NetworkBehaviour {
 		//this.GetComponent<NetworkIdentity> ().AssignClientAuthority (this.connectionToClient);
 
 	}
-		
+
 	void Update () {
-//		foreach(PlayerScript player in players.Values) {
-//			print ("-----");
-//			print ("Players are " + player.team);
-//		}
-
-		//print (players.ContainsKey(0));
-
+		resources += Time.deltaTime;
 		units.Clear ();
 			GameObject[] allunits = GameObject.FindGameObjectsWithTag ("Unit");
 			foreach(GameObject u in allunits) {
@@ -40,9 +35,11 @@ public class PlayerScript : NetworkBehaviour {
 				units.Add (u.GetComponent<Unit>());
 			}
 		}
+
+		GManager.main.UIresourceText.GetComponent<Text>().text = "Resources: " + (int)resources;
 	}
 
-	void LateUpdate () {
+//	void LateUpdate () {
 //		GameObject[] cameras = GameObject.FindObjectsOfType<GameObject>();
 //		foreach (GameObject c in cameras) {
 //			if (c.tag.Contains ("Camera")) {
@@ -53,18 +50,17 @@ public class PlayerScript : NetworkBehaviour {
 //				}
 //			}
 //		}
-		GameObject[] players = GameObject.FindGameObjectsWithTag ("MainCamera");
-		foreach(GameObject i in players) {
-			print ("Wheeee");
-			i.GetComponent<Camera>().enabled = false;
-			if (i.GetComponent<NetworkIdentity>() != null) {
-				Destroy (i.GetComponent<NetworkTransform> ());
-				Destroy (i.GetComponent<NetworkIdentity> ());
-			}
-		}
-		gameObject.GetComponent<Camera>().enabled = true;
-
-	}
+//		GameObject[] players = GameObject.FindGameObjectsWithTag ("MainCamera");
+//		foreach(GameObject i in players) {
+//			i.GetComponent<Camera>().enabled = false;
+//			if (i.GetComponent<NetworkIdentity>() != null) {
+//				Destroy (i.GetComponent<NetworkTransform> ());
+//				Destroy (i.GetComponent<NetworkIdentity> ());
+//			}
+//		}
+//		gameObject.GetComponent<Camera>().enabled = true;
+//
+//	}
 
 	public void addSelectedUnit(Unit add) {
 		selected.Add (add);
