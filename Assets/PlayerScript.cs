@@ -21,17 +21,26 @@ public class PlayerScript : NetworkBehaviour {
 		}
 		team = players.Count;
 		players.Add (team, this);
+		print ("Player " + team + " is starting!");
 		//this.GetComponent<NetworkIdentity> ().AssignClientAuthority (this.connectionToClient);
 
 	}
 
 	void Update () {
+
+		if (!(isLocalPlayer)) {
+			gameObject.GetComponent<Camera> ().enabled = false;
+			return;
+		} else {
+			gameObject.GetComponent<Camera> ().enabled = true;
+		}
+
 		resources += Time.deltaTime;
 		units.Clear ();
 			GameObject[] allunits = GameObject.FindGameObjectsWithTag ("Unit");
 			foreach(GameObject u in allunits) {
 			if(u.GetComponent<Unit>().team == team) {
-				u.GetComponent<NetworkIdentity> ().AssignClientAuthority (this.connectionToClient);
+				//u.GetComponent<NetworkIdentity> ().AssignClientAuthority (this.connectionToClient);
 				units.Add (u.GetComponent<Unit>());
 			}
 		}
@@ -59,7 +68,6 @@ public class PlayerScript : NetworkBehaviour {
 //			}
 //		}
 //		gameObject.GetComponent<Camera>().enabled = true;
-//
 //	}
 
 	public void addSelectedUnit(Unit add) {

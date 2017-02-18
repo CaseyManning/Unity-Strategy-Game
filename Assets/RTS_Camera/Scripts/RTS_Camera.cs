@@ -197,14 +197,26 @@ namespace RTS_Cam
         /// </summary>
         private void CameraUpdate()
         {
-            if (FollowingTarget)
-                FollowTarget();
-            else
-                Move();
+			if (gameObject.GetComponent<PlayerScript> ().isLocalPlayer == false) {
+				return;
+			}
+			int team = gameObject.GetComponent<PlayerScript> ().team;
+			print ("Player " + team + "Position is" + gameObject.transform.position);
+			if (FollowingTarget) {
+				print ("Following Target");
+				FollowTarget ();
+			} else {
+				Move ();
+				print ("Moving");
+			}
+			print ("Player " + team + "Position afterwards " + gameObject.transform.position);
 
             HeightCalculation();
             Rotation();
             LimitPosition();
+
+			print ("Player " + team + "Position at end " + gameObject.transform.position);
+
         }
 
         /// <summary>

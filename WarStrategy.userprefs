@@ -1,19 +1,22 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/PlayerScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Factory.cs">
     <Files>
-      <File FileName="Assets/Unit.cs" Line="50" Column="43" />
-      <File FileName="Assets/Building.cs" Line="25" Column="1" />
+      <File FileName="Assets/Unit.cs" Line="50" Column="4" />
+      <File FileName="Assets/Building.cs" Line="10" Column="18" />
       <File FileName="Assets/CityScript.cs" Line="1" Column="1" />
       <File FileName="Assets/SelectionManager.cs" Line="1" Column="1" />
       <File FileName="Assets/CameraMove.cs" Line="22" Column="3" />
       <File FileName="Assets/TerrainClickHandler.cs" Line="32" Column="4" />
       <File FileName="Assets/Terrain.cs" Line="1" Column="1" />
-      <File FileName="Assets/PlayerScript.cs" Line="60" Column="19" />
-      <File FileName="Assets/GManager.cs" Line="32" Column="1" />
-      <File FileName="Assets/RTS_Camera/Scripts/RTS_Camera.cs" Line="133" Column="14" />
-      <File FileName="Assets/Factory.cs" Line="10" Column="74" />
+      <File FileName="Assets/PlayerScript.cs" Line="38" Column="3" />
+      <File FileName="Assets/GManager.cs" Line="38" Column="4" />
+      <File FileName="Assets/RTS_Camera/Scripts/RTS_Camera.cs" Line="1" Column="1" />
+      <File FileName="Assets/Factory.cs" Line="21" Column="1" />
       <File FileName="Assets/Tank.cs" Line="3" Column="1" />
+      <File FileName="Assets/NetworkLobbyHook.cs" Line="1" Column="1" />
+      <File FileName="Assets/ProjectileScript.cs" Line="23" Column="3" />
+      <File FileName="Assets/Baracks.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

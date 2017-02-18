@@ -15,15 +15,9 @@ public class CameraMove : NetworkBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		if (!isLocalPlayer) {
-			gameObject.GetComponent<Camera>().enabled = false;
+		if (gameObject.GetComponent<PlayerScript> ().isLocalPlayer == false) {
 			return;
 		}
-		GameObject[] players = GameObject.FindGameObjectsWithTag ("MainCamera");
-		foreach(GameObject i in players) {
-			i.GetComponent<Camera>().enabled = false;
-		}
-		gameObject.GetComponent<Camera>().enabled = true;
 		transform.position = new Vector3(0, 3, 0);
 		transform.rotation.Set (30, 30, 30, 1);
 	}
@@ -31,16 +25,9 @@ public class CameraMove : NetworkBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if (!isLocalPlayer) {
-			gameObject.GetComponent<Camera>().enabled = false;
+		if (gameObject.GetComponent<PlayerScript> ().isLocalPlayer == false) {
 			return;
 		}
-		GameObject[] players = GameObject.FindGameObjectsWithTag ("MainCamera");
-		foreach(GameObject i in players) {
-			i.GetComponent<Camera>().enabled = false;
-		}
-		gameObject.GetComponent<Camera>().enabled = true;
-
 		if (Input.GetKey("up")) {
 			Vector3 a = transform.position;
 			a.z += 0.1f;

@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public class Building : Unit {
 
@@ -13,6 +14,7 @@ public class Building : Unit {
 	public void Start () {
 		for (int i = 0; i < strings.Length; i++) {
 			unitsSpawned.Add(strings[i], gameObjects[i]);
+			ClientScene.RegisterPrefab (gameObjects [i]);
 		}
 		base.Start ();
 	}
@@ -32,6 +34,7 @@ public class Building : Unit {
 						PlayerScript.players [team].resources -= unitsSpawned [s].GetComponent<Unit> ().cost;
 						print ("test");
 						GameObject g = Instantiate (unitsSpawned [s]);
+						NetworkServer.SpawnWithClientAuthority (g, PlayerScript.players [team].connectionToServer);
 						g.GetComponent<Unit> ().team = team;
 						g.transform.position = transform.position;
 
