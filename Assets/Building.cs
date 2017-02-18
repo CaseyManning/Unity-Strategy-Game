@@ -34,7 +34,13 @@ public class Building : Unit {
 						PlayerScript.players [team].resources -= unitsSpawned [s].GetComponent<Unit> ().cost;
 						print ("test");
 						GameObject g = Instantiate (unitsSpawned [s]);
-						NetworkServer.SpawnWithClientAuthority (g, PlayerScript.players [team].connectionToServer);
+						if (PlayerScript.players [team].isClient) {
+							//NetworkServer.SpawnWithClientAuthority (g, PlayerScript.players [team].connectionToServer);
+							NetworkServer.Spawn(g);
+						} else {
+							NetworkServer.Spawn(g);
+							//NetworkServer.SpawnWithClientAuthority (g, PlayerScript.players [team].connectionToClient);
+						}
 						g.GetComponent<Unit> ().team = team;
 						g.transform.position = transform.position;
 
