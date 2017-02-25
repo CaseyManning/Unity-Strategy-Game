@@ -28,21 +28,27 @@ public class Building : Unit {
 		base.Update ();
 		if (PlayerScript.players.ContainsKey (team)) {
 			if (PlayerScript.players [team].selected.Contains (this) && unitsSpawned.Count > 0) {
-				print ("I am ready to create a unit!");
 				foreach (string s in unitsSpawned.Keys) {
 					if (Input.GetKeyUp (s) && PlayerScript.players[team].resources >= unitsSpawned[s].GetComponent<Unit>().cost) {
 						PlayerScript.players [team].resources -= unitsSpawned [s].GetComponent<Unit> ().cost;
-						print ("test");
-						GameObject g = Instantiate (unitsSpawned [s]);
-						if (PlayerScript.players [team].isClient) {
-							//NetworkServer.SpawnWithClientAuthority (g, PlayerScript.players [team].connectionToServer);
-							NetworkServer.Spawn(g);
-						} else {
-							NetworkServer.Spawn(g);
-							//NetworkServer.SpawnWithClientAuthority (g, PlayerScript.players [team].connectionToClient);
-						}
-						g.GetComponent<Unit> ().team = team;
-						g.transform.position = transform.position;
+						print ("Creating a Unit");
+//						GameObject g = Instantiate (unitsSpawned [s]);
+//						if (team == 1) {
+//							Shader[] shaders = g.transform.GetComponentsInChildren<Shader> ();
+//							foreach(Shader sh in shaders) {
+//								if (sh.name == "colour_units") {
+//									//sh.gameObject = GManager.colors[1]
+//								}
+//							}
+//						}
+
+//						print ("Setting Authority of " + g.ToString ());
+						print("Team is " + team);
+						print ("S is " + s);
+						PlayerScript.players [team].CmdSpawnUnit (unitsSpawned [s].name, PlayerScript.players[team].GetComponent<NetworkIdentity>(), transform.position, team);
+//						g.transform.position = transform.position;
+//						g.GetComponent<Unit> ().team = team;
+						//PlayerScript.players[team].CmdSetAuthority(g.GetComponent<NetworkIdentity>(), PlayerScript.players[team].GetComponent<NetworkIdentity>());
 
 					}
 				}

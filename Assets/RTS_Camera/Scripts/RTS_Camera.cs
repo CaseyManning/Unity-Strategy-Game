@@ -26,13 +26,13 @@ namespace RTS_Cam
 
         #endregion
 
-        private Transform m_Transform; //camera tranform
+        private Transform m_Transform; //camera transform
         public bool useFixedUpdate = false; //use FixedUpdate() or Update()
 
         #region Movement
 
         public float keyboardMovementSpeed = 5f; //speed with keyboard movement
-        public float screenEdgeMovementSpeed = 3f; //spee with screen edge movement
+        public float screenEdgeMovementSpeed = 3f; //speed with screen edge movement
         public float followingSpeed = 5f; //speed when following a target
         public float rotationSped = 3f;
         public float panningSpeed = 10f;

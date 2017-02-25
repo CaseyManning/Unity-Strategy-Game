@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class Unit : MonoBehaviour {
 
@@ -24,6 +25,11 @@ public class Unit : MonoBehaviour {
 	public float projectileSpeed = 5f;
 
 	public void Start () {
+//		if (PlayerScript.players [team].isClient) {
+//			gameObject.GetComponent<NetworkIdentity> ().AssignClientAuthority (PlayerScript.players [team].connectionToClient);
+//		} else {
+//			gameObject.GetComponent<NetworkIdentity> ().AssignClientAuthority (PlayerScript.players [team].connectionToServer);
+//		}
 		print("Is the navagent null? " + (navAgent == null).ToString() );
 		//selection = transform.Find ("Selection").gameObject;
 		navAgent = GetComponent<NavMeshAgent> ();
@@ -56,14 +62,15 @@ public class Unit : MonoBehaviour {
 		//If the player has clicked on the terrain to create a move target, move towards it
 		GameObject[] targets = GameObject.FindGameObjectsWithTag ("target");
 		if (PlayerScript.players.ContainsKey (team)) {
-			print ("Why do I have to print this?");
-			if (PlayerScript.players.ContainsKey (team) && targets.Length > 0 && PlayerScript.players [team].selected.Contains (this)) {
-				currentMoveTarget = targets [0].transform.position;
-				//print("Nav agent destination is null?" + navAgent.destination == null);
-				navAgent.destination = currentMoveTarget;
-				currentAttackTarget = null;
-				Destroy (targets [0]);
-				//targets[0].removeFromParent();
+			if (gameObject.GetComponent<Building> () == null) {
+				if (PlayerScript.players.ContainsKey (team) && targets.Length > 0 && PlayerScript.players [team].selected.Contains (this)) {
+					currentMoveTarget = targets [0].transform.position;
+					//print("Nav agent destination is null?" + navAgent.destination == null);
+					navAgent.destination = currentMoveTarget;
+					currentAttackTarget = null;
+					Destroy (targets [0]);
+					//targets[0].removeFromParent();
+				}
 			}
 		}
 		//If the unit is supposed to be attacking something, either move towards it, or damage it
@@ -80,19 +87,21 @@ public class Unit : MonoBehaviour {
 		}
 			
 		//If the player clicks on the unit, select it
-		if (PlayerScript.players.ContainsKey (team) && Input.GetMouseButtonDown (0) && PlayerScript.players [team].isLocalPlayer) {
-			RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if (gameObject.GetComponent<Collider>().Raycast(ray, out hit, Mathf.Infinity)) {
-				print ("We clicked on the unit!");
-				if (!Input.GetKey (KeyCode.LeftShift)) {
-					PlayerScript.players [team].deselectAll ();
-				}
-				PlayerScript.players [team].addSelectedUnit (this);
-				foreach (GameObject i in GameObject.FindGameObjectsWithTag("target")) {
-					Destroy (i);
-				}
+		if (PlayerScript.players.ContainsKey (team)) {
+			if (PlayerScript.players.ContainsKey (team) && Input.GetMouseButtonDown (0) && PlayerScript.players [team].isLocalPlayer) {
+				RaycastHit hit;
+				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+				if (gameObject.GetComponent<Collider> ().Raycast (ray, out hit, Mathf.Infinity)) {
+					print ("We clicked on the unit!");
+					if (!Input.GetKey (KeyCode.LeftShift)) {
+						PlayerScript.players [team].deselectAll ();
+					}
+					PlayerScript.players [team].addSelectedUnit (this);
+					foreach (GameObject i in GameObject.FindGameObjectsWithTag("target")) {
+						Destroy (i);
+					}
 
+				}
 			}
 		}
 

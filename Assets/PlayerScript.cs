@@ -37,14 +37,14 @@ public class PlayerScript : NetworkBehaviour {
 
 		resources += Time.deltaTime;
 		units.Clear ();
-			GameObject[] allunits = GameObject.FindGameObjectsWithTag ("Unit");
-			foreach(GameObject u in allunits) {
+		GameObject[] allunits = GameObject.FindGameObjectsWithTag ("Unit");
+		foreach(GameObject u in allunits) {
 			if(u.GetComponent<Unit>().team == team) {
-				//u.GetComponent<NetworkIdentity> ().AssignClientAuthority (this.connectionToClient);
+//				u.GetComponent<NetworkIdentity> ().AssignClientAuthority (this.connectionToClient);
 				units.Add (u.GetComponent<Unit>());
 			}
 		}
-
+//		GManager gm = getGameManager ();
 		GManager.main.UIresourceText.GetComponent<Text>().text = "Resources: " + (int)resources;
 	}
 
@@ -87,5 +87,57 @@ public class PlayerScript : NetworkBehaviour {
 			}
 		}
 		return null;
+	}
+
+	[Command]
+	public void CmdSpawnUnit(string unit, NetworkIdentity playerID, Vector3 position, int team) {
+		print ("Spawning a unit!");
+		Debug.Log ("Running NetworkServer.Spawn, trying to spawn " + unit);
+		GameObject go = GManager.main.units [unit];
+		GameObject g = Instantiate (go);
+		print ("Here is the unit: " + g.ToString ());
+		if (g.GetComponent<NetworkIdentity> ().localPlayerAuthority) {
+			print ("Spawning with client authority!");
+			NetworkServer.Spawn (g);
+		} else {
+			print ("Spawning without client authority!");
+			NetworkServer.Spawn (g);
+		}
+//		NetworkIdentity net = g.GetComponent<NetworkIdentity> ();
+//		if (playerID.isServer) {
+//			net.AssignClientAuthority (playerID.connectionToClient);
+//		} else {
+//			net.AssignClientAuthority (playerID.connectionToServer);
+//		}
+		g.transform.position = position;
+		g.GetComponent<Unit>().team = team;
+	}
+
+//	[Command]
+//	public void CmdSetAuthority(NetworkIdentity netId, NetworkIdentity playerID) {
+//		Debug.LogError("Running NetworkServer.SetAuthority, trying to spawn " + netId.gameObject.ToString());
+//		netId.AssignClientAuthority (playerID.connectionToClient);
+//	}
+//
+	[Command]
+	public void CmdSetAuthority(NetworkIdentity netId, NetworkIdentity playerID) {
+		Debug.LogError("Running NetworkServer.SetAuthority on " + netId.gameObject.ToString());
+		if (playerID.isServer) {
+			netId.AssignClientAuthority (playerID.connectionToClient);
+		} else {
+			netId.AssignClientAuthority (playerID.connectionToServer);
+		}
+	}
+
+
+	public GManager getGameManager() {
+		GameObject gameManager = null;
+		GameObject[] gm = gameObject.scene.GetRootGameObjects();
+		foreach(GameObject g in gm) {
+			if (g.name == "GameManager") {
+				gameManager = g;
+			}
+		}
+		return gameManager.GetComponent<GManager> ();
 	}
 }

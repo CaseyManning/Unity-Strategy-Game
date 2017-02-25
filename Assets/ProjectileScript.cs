@@ -13,16 +13,17 @@ public class ProjectileScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.LookAt (target.transform);
+		if (target != null) {
+			transform.LookAt (target.transform);
 
 
-		transform.Translate(new Vector3(0, 0, speed*Time.deltaTime));
-		if (Vector3.Distance (transform.position, target.transform.position) < speed) {
+			transform.Translate (new Vector3 (0, 0, speed * Time.deltaTime));
+			if (Vector3.Distance (transform.position, target.transform.position) < speed) {
 //			Destroy (gameObject);
-		}
-
-		if (target == null) {
+			}
+		} else {
 			Destroy (gameObject);
 		}
+
 	}
 }
