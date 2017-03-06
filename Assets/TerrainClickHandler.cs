@@ -30,8 +30,7 @@ public class TerrainClickHandler : MonoBehaviour {
 
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (goTerrain.GetComponent<Collider>().Raycast(ray, out hit, Mathf.Infinity) && clicks == 1) {
-				print ("Num clicks is " + clicks);
-				print ("We have clicked on the terrain!");
+				print ("We have clicked on the terrain");
 				GameObject t = new GameObject ();
 				t.tag = "target";
 				t.transform.position = hit.point;

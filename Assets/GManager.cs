@@ -14,6 +14,7 @@ public class GManager : MonoBehaviour {
 	public Dictionary<string, GameObject> units = new Dictionary<string, GameObject> ();
 	public GameObject UIresourceText;
 	public static GManager main;
+	public GameObject[] unitButtons;
 
 	void Start () {
 		colors = new Dictionary<int, Material>();

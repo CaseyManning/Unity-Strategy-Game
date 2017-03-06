@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class Unit : MonoBehaviour {
+public class Unit : NetworkBehaviour {
 
 	public string name;
 	public int health = 20;
@@ -16,8 +16,8 @@ public class Unit : MonoBehaviour {
 	public GameObject currentAttackTarget;
 	Vector3 currentMoveTarget;
 	NavMeshAgent navAgent;
+	[SyncVar]
 	public int team;
-	public GameObject selection;
 	public bool debug = false;
 	public GameObject attackProjectile;
 	int count = 0;
@@ -25,13 +25,12 @@ public class Unit : MonoBehaviour {
 	public float projectileSpeed = 5f;
 
 	public void Start () {
+		Debug.LogError ("We are a unit, and our team is " + team);
 //		if (PlayerScript.players [team].isClient) {
 //			gameObject.GetComponent<NetworkIdentity> ().AssignClientAuthority (PlayerScript.players [team].connectionToClient);
 //		} else {
 //			gameObject.GetComponent<NetworkIdentity> ().AssignClientAuthority (PlayerScript.players [team].connectionToServer);
 //		}
-		print("Is the navagent null? " + (navAgent == null).ToString() );
-		//selection = transform.Find ("Selection").gameObject;
 		navAgent = GetComponent<NavMeshAgent> ();
 
 //		foreach(Component i in gameObject.GetComponentsInChildren<Material>()) {
@@ -54,56 +53,12 @@ public class Unit : MonoBehaviour {
 		if (PlayerScript.players == null) {
 			return;
 		}
-		//if (PlayerScript.players.ContainsKey (team) && PlayerScript.players [team].selected.Contains(this)) {
-			//selection.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-		//} else {
-			//selection.transform.position = new Vector3(transform.position.x, -20, transform.position.z);
-		//}
-		//If the player has clicked on the terrain to create a move target, move towards it
-		GameObject[] targets = GameObject.FindGameObjectsWithTag ("target");
-		if (PlayerScript.players.ContainsKey (team)) {
-			if (gameObject.GetComponent<Building> () == null) {
-				if (PlayerScript.players.ContainsKey (team) && targets.Length > 0 && PlayerScript.players [team].selected.Contains (this)) {
-					currentMoveTarget = targets [0].transform.position;
-					//print("Nav agent destination is null?" + navAgent.destination == null);
-					navAgent.destination = currentMoveTarget;
-					currentAttackTarget = null;
-					Destroy (targets [0]);
-					//targets[0].removeFromParent();
-				}
-			}
-		}
-		//If the unit is supposed to be attacking something, either move towards it, or damage it
-		if (currentAttackTarget != null) {
-			if (currentAttackTarget.GetComponent<Unit> () != null) {
-				if (Vector3.Distance (currentAttackTarget.transform.position, gameObject.transform.position) <= range) {
-					attack (currentAttackTarget);
-					navAgent.destination = transform.position;
-				} else {
-					navAgent.destination = currentAttackTarget.transform.position;
-				}
-			}
-		
-		}
-			
-		//If the player clicks on the unit, select it
-		if (PlayerScript.players.ContainsKey (team)) {
-			if (PlayerScript.players.ContainsKey (team) && Input.GetMouseButtonDown (0) && PlayerScript.players [team].isLocalPlayer) {
-				RaycastHit hit;
-				Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-				if (gameObject.GetComponent<Collider> ().Raycast (ray, out hit, Mathf.Infinity)) {
-					print ("We clicked on the unit!");
-					if (!Input.GetKey (KeyCode.LeftShift)) {
-						PlayerScript.players [team].deselectAll ();
-					}
-					PlayerScript.players [team].addSelectedUnit (this);
-					foreach (GameObject i in GameObject.FindGameObjectsWithTag("target")) {
-						Destroy (i);
-					}
 
-				}
-			}
+		if (!PlayerScript.players.ContainsKey (team)) {
+			return;
 		}
+
+		transform.FindChild ("Selection").GetComponent<MeshRenderer> ().enabled = PlayerScript.players [team].selected.Contains (this);
 
 		//If the unit is clicked by the enemy, tell all the enemy's selected units to attack it
 		if (Input.GetMouseButtonDown (1) && (!(PlayerScript.players.ContainsKey (team)) || !(PlayerScript.players [team].isLocalPlayer))) {
@@ -120,6 +75,65 @@ public class Unit : MonoBehaviour {
 		if (health <= 0) {
 			die ();
 		}
+		if (! PlayerScript.players [team].isLocalPlayer) {
+			return;
+		}
+		//if (PlayerScript.players.ContainsKey (team) && PlayerScript.players [team].selected.Contains(this)) {
+			//selection.transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+		//} else {
+			//selection.transform.position = new Vector3(transform.position.x, -20, transform.position.z);
+		//}
+		//If the player has clicked on the terrain to create a move target, move towards it
+		GameObject[] targets = GameObject.FindGameObjectsWithTag ("target");
+//		if (PlayerScript.players.ContainsKey (team)) {
+			if (gameObject.GetComponent<Building> () == null) {
+				if (targets.Length > 0 && PlayerScript.players [team].selected.Contains (this)) {
+					print ("Moving selected " + gameObject.name + " unit, owned by player " + team + " and the local player's team is " + PlayerScript.getLocalPlayer ().team);
+//					if(PlayerScript.players[team].isLocalPlayer) {
+						currentMoveTarget = targets [0].transform.position;
+						//print("Nav agent destination is null?" + navAgent.destination == null);
+						navAgent.destination = currentMoveTarget;
+						currentAttackTarget = null;
+						Destroy (targets [0]);
+						//targets[0].removeFromParent();
+//					}
+				}
+			}
+//		}
+		//If the unit is supposed to be attacking something, either move towards it, or damage it
+//		if(PlayerScript.players[team].isLocalPlayer) {
+			if (currentAttackTarget != null) {
+				if (currentAttackTarget.GetComponent<Unit> () != null) {
+					if (Vector3.Distance (currentAttackTarget.transform.position, gameObject.transform.position) <= range) {
+						attack (currentAttackTarget);
+						navAgent.destination = transform.position;
+					} else {
+						navAgent.destination = currentAttackTarget.transform.position;
+					}
+				}
+			}
+//		}
+
+		//If the player clicks on the unit, select it
+//		if (PlayerScript.players.ContainsKey (team)) {
+			if (Input.GetMouseButtonDown (0)) {
+				PlayerScript.printPlayers();
+//				if (PlayerScript.players [team].isLocalPlayer) {
+					RaycastHit hit;
+					Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+					if (gameObject.GetComponent<Collider> ().Raycast (ray, out hit, Mathf.Infinity)) {
+						print ("We clicked on the " + gameObject.name + " unit, owned by player " + PlayerScript.players [team].team + " and the local player's team is " + PlayerScript.getLocalPlayer ().team);
+						if (!Input.GetKey (KeyCode.LeftShift)) {
+							PlayerScript.players [team].deselectAll ();
+						}
+						PlayerScript.players [team].addSelectedUnit (this);
+						foreach (GameObject i in GameObject.FindGameObjectsWithTag("target")) {
+							Destroy (i);
+						}
+					}
+//				}
+			}
+//		}
 	}
 
 	void attack(GameObject target) {

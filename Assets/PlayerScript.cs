@@ -23,7 +23,14 @@ public class PlayerScript : NetworkBehaviour {
 		players.Add (team, this);
 		print ("Player " + team + " is starting!");
 		//this.GetComponent<NetworkIdentity> ().AssignClientAuthority (this.connectionToClient);
+		printPlayers();
+	}
 
+	public static void printPlayers() {
+//		Debug.LogError ("PRINTING THE HASHMAP OF " + players.Keys.Count + " PLAYERS");
+//		for (int i = 0; i < players.Keys.Count; i++) {
+//			Debug.LogError (i + ", " + players [i]);
+//		}
 	}
 
 	void Update () {
@@ -34,7 +41,15 @@ public class PlayerScript : NetworkBehaviour {
 		} else {
 			gameObject.GetComponent<Camera> ().enabled = true;
 		}
-
+//		if(selected.Count > 0) {
+//			if (selected [0].gameObject.GetComponent<Building> () != null) {
+//				for (int i = 0; i < selected [0].gameObject.GetComponent<Building> ().unitsSpawned.Count; i++) {
+//					//GManager.main.unitButtons.whenPressed(do the thing with selected[0].gameObject.GetComponent<Building> ().unitsSpawned[i]);
+//					GManager.main.unitButtons[i].transform.FindChild("Text").GetComponent<Text>().text = 
+//						selected [0].gameObject.GetComponent<Building> ().unitsSpawned.Values[i].name;
+//				}
+//			}
+//		}
 		resources += Time.deltaTime;
 		units.Clear ();
 		GameObject[] allunits = GameObject.FindGameObjectsWithTag ("Unit");
@@ -90,27 +105,26 @@ public class PlayerScript : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdSpawnUnit(string unit, NetworkIdentity playerID, Vector3 position, int team) {
+	public void CmdSpawnUnit(string unit, NetworkIdentity playerID, Vector3 position, int unitTeam) {
 		print ("Spawning a unit!");
 		Debug.Log ("Running NetworkServer.Spawn, trying to spawn " + unit);
 		GameObject go = GManager.main.units [unit];
 		GameObject g = Instantiate (go);
-		print ("Here is the unit: " + g.ToString ());
+		g.GetComponent<Unit>().team = unitTeam;
+		Debug.LogError ("Spawned unit on team " + g.GetComponent<Unit>().team);
 		if (g.GetComponent<NetworkIdentity> ().localPlayerAuthority) {
-			print ("Spawning with client authority!");
-			NetworkServer.Spawn (g);
+			Debug.LogError  ("Spawning with client authority!");
 		} else {
-			print ("Spawning without client authority!");
-			NetworkServer.Spawn (g);
+			Debug.LogError  ("Spawning without client authority!");
 		}
-//		NetworkIdentity net = g.GetComponent<NetworkIdentity> ();
-//		if (playerID.isServer) {
-//			net.AssignClientAuthority (playerID.connectionToClient);
-//		} else {
-//			net.AssignClientAuthority (playerID.connectionToServer);
-//		}
+		NetworkServer.Spawn (g);
+		NetworkIdentity net = g.GetComponent<NetworkIdentity> ();
+		if (playerID.isServer) {
+			net.AssignClientAuthority (playerID.connectionToClient);
+		} else {
+			net.AssignClientAuthority (playerID.connectionToServer);
+		}
 		g.transform.position = position;
-		g.GetComponent<Unit>().team = team;
 	}
 
 //	[Command]
