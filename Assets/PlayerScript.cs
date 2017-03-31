@@ -53,37 +53,32 @@ public class PlayerScript : NetworkBehaviour {
 		resources += Time.deltaTime;
 		units.Clear ();
 		GameObject[] allunits = GameObject.FindGameObjectsWithTag ("Unit");
+		//print ("ALL UNITS: " + allunits.Length);
 		foreach(GameObject u in allunits) {
 			if(u.GetComponent<Unit>().team == team) {
 //				u.GetComponent<NetworkIdentity> ().AssignClientAuthority (this.connectionToClient);
+				//print("Adding a unit to the list!");
 				units.Add (u.GetComponent<Unit>());
+				//print ("Num units" + units.Count);
 			}
 		}
 //		GManager gm = getGameManager ();
 		GManager.main.UIresourceText.GetComponent<Text>().text = "Resources: " + (int)resources;
-	}
 
-//	void LateUpdate () {
-//		GameObject[] cameras = GameObject.FindObjectsOfType<GameObject>();
-//		foreach (GameObject c in cameras) {
-//			if (c.tag.Contains ("Camera")) {
-//				if (c.GetComponent<PlayerScript> ().team != team) {
-//					c.tag = "Camera";
-//				} else {
-//					c.tag = "MainCamera";
-//				}
-//			}
-//		}
-//		GameObject[] players = GameObject.FindGameObjectsWithTag ("MainCamera");
-//		foreach(GameObject i in players) {
-//			i.GetComponent<Camera>().enabled = false;
-//			if (i.GetComponent<NetworkIdentity>() != null) {
-//				Destroy (i.GetComponent<NetworkTransform> ());
-//				Destroy (i.GetComponent<NetworkIdentity> ());
-//			}
-//		}
-//		gameObject.GetComponent<Camera>().enabled = true;
-//	}
+		int numBuildings = 0;
+		foreach (Unit u in units) {
+			if (u.gameObject.GetComponent<Building> () != null) {
+				numBuildings += 1;
+			}
+		}
+		//print ("num units: " + units.Count);
+		//print ("num buildings " + numBuildings);
+		if (numBuildings == 0) {
+			print ("- Disconnecting from game -");
+			Network.Disconnect ();
+//			NetworkLobbyManager.ServerReturnToLobby ();
+		}
+	}
 
 	public void addSelectedUnit(Unit add) {
 		selected.Add (add);
@@ -125,6 +120,27 @@ public class PlayerScript : NetworkBehaviour {
 			net.AssignClientAuthority (playerID.connectionToServer);
 		}
 		g.transform.position = position;
+	}
+
+	[Command]
+	public void CmdSpawnProjectile(GameObject go, GameObject target, float speed, Vector3 position) {
+		GameObject g = Instantiate (go);
+		NetworkServer.Spawn (g);
+		g.GetComponent<ProjectileScript> ().target = target;
+		g.GetComponent<ProjectileScript> ().speed = speed;
+		g.transform.position = position;
+	}
+
+
+	[Command]
+	public void CmdDisconnectPlayer(NetworkIdentity player) {
+		Network.Disconnect ();
+//		NetworkLobbyManager.ServerReturnToLobby ();
+	}
+
+	[Command]
+	public void CmdDestroyUnit(GameObject g) {
+		Destroy (g);
 	}
 
 //	[Command]

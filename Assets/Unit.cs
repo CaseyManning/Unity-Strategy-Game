@@ -15,7 +15,7 @@ public class Unit : NetworkBehaviour {
 	float attackCooldown = 0;
 	public GameObject currentAttackTarget;
 	Vector3 currentMoveTarget;
-	NavMeshAgent navAgent;
+	UnityEngine.AI.NavMeshAgent navAgent;
 	[SyncVar]
 	public int team;
 	public bool debug = false;
@@ -25,13 +25,14 @@ public class Unit : NetworkBehaviour {
 	public float projectileSpeed = 5f;
 
 	public void Start () {
-		Debug.LogError ("We are a unit, and our team is " + team);
+		ClientScene.RegisterPrefab (attackProjectile);
+//		Debug.LogError ("We are a unit, and our team is " + team);
 //		if (PlayerScript.players [team].isClient) {
 //			gameObject.GetComponent<NetworkIdentity> ().AssignClientAuthority (PlayerScript.players [team].connectionToClient);
 //		} else {
 //			gameObject.GetComponent<NetworkIdentity> ().AssignClientAuthority (PlayerScript.players [team].connectionToServer);
 //		}
-		navAgent = GetComponent<NavMeshAgent> ();
+		navAgent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 
 //		foreach(Component i in gameObject.GetComponentsInChildren<Material>()) {
 //			if (i.name == "colour_units") {
@@ -44,7 +45,7 @@ public class Unit : NetworkBehaviour {
 
 //		transform.FindChild
 		if (gameObject.GetComponent<Building> () == null) {
-			gameObject.GetComponent<NavMeshAgent> ().speed = speed;
+			gameObject.GetComponent<UnityEngine.AI.NavMeshAgent> ().speed = speed;
 		}
 	}
 
@@ -142,16 +143,23 @@ public class Unit : NetworkBehaviour {
 			transform.LookAt (target.transform);
 			target.GetComponent<Unit>().health -= attackDamage;
 			attackCooldown = attackSpeed;
-			GameObject g = Instantiate (attackProjectile);
-			g.GetComponent<ProjectileScript> ().target = currentAttackTarget;
-			g.GetComponent<ProjectileScript> ().speed = projectileSpeed;
+			//GameObject g = Instantiate (attackProjectile);
+			PlayerScript.players[team].CmdSpawnProjectile (attackProjectile, target, speed, transform.position);
+
+			/*
+			GameObject g = Instantiate(currentAttackTarget);
+			g.GetComponent<ProjectileScript> ().target = target;
+			g.GetComponent<ProjectileScript> ().speed = speed;
 			g.transform.position = transform.position;
+			*/
+
 		} else {
 			attackCooldown -= Time.deltaTime;
 		}
 	}
 
 	void die() {
-		Destroy (gameObject);
+		print ("Trying to kill myself on team " + team);
+		PlayerScript.players [team].CmdDestroyUnit (gameObject);
 	}
 }

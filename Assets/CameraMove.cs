@@ -9,7 +9,6 @@ using System.Collections;
 
 
 
-
 public class CameraMove : NetworkBehaviour {
 
 	// Use this for initialization
