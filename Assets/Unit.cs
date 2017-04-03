@@ -6,6 +6,7 @@ public class Unit : NetworkBehaviour {
 
 	public string name;
 	public int health = 20;
+	public int maxHealth = 20;
 	public int cost;
 	public int creationTime;
 	public float speed = 3;
@@ -25,7 +26,10 @@ public class Unit : NetworkBehaviour {
 	public float projectileSpeed = 5f;
 
 	public void Start () {
-		ClientScene.RegisterPrefab (attackProjectile);
+		maxHealth = health;
+		if (attackProjectile != null) {
+			ClientScene.RegisterPrefab (attackProjectile);
+		}
 //		Debug.LogError ("We are a unit, and our team is " + team);
 //		if (PlayerScript.players [team].isClient) {
 //			gameObject.GetComponent<NetworkIdentity> ().AssignClientAuthority (PlayerScript.players [team].connectionToClient);
@@ -50,6 +54,9 @@ public class Unit : NetworkBehaviour {
 	}
 
 	public void Update () {
+		if (transform.FindChild ("HealthBar") != null) {
+			transform.FindChild ("HealthBar").transform.localScale.Set ((float)health / maxHealth, 0.1f, 0.1f);
+		}
 
 		if (PlayerScript.players == null) {
 			return;
@@ -144,7 +151,7 @@ public class Unit : NetworkBehaviour {
 			target.GetComponent<Unit>().health -= attackDamage;
 			attackCooldown = attackSpeed;
 			//GameObject g = Instantiate (attackProjectile);
-			PlayerScript.players[team].CmdSpawnProjectile (attackProjectile, target, speed, transform.position);
+			PlayerScript.players[team].CmdSpawnProjectile (attackProjectile, target, speed, transform.position, team);
 
 			/*
 			GameObject g = Instantiate(currentAttackTarget);

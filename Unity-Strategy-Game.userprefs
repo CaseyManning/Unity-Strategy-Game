@@ -1,20 +1,20 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Building.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Unit.cs">
     <Files>
+      <File FileName="Assets/Unit.cs" Line="149" Column="2" />
       <File FileName="Assets/Baracks.cs" Line="1" Column="1" />
       <File FileName="Assets/NetworkLobbyHook.cs" Line="1" Column="1" />
-      <File FileName="Assets/Unit.cs" Line="154" Column="14" />
-      <File FileName="Assets/PlayerScript.cs" Line="135" Column="3" />
+      <File FileName="Assets/PlayerScript.cs" Line="77" Column="4" />
       <File FileName="Assets/CameraMove.cs" Line="11" Column="1" />
       <File FileName="Assets/GManager.cs" Line="1" Column="1" />
       <File FileName="Assets/ProjectileScript.cs" Line="1" Column="1" />
       <File FileName="Assets/SelectionManager.cs" Line="1" Column="1" />
       <File FileName="Assets/Terrain.cs" Line="1" Column="1" />
-      <File FileName="Assets/TerrainClickHandler.cs" Line="1" Column="1" />
+      <File FileName="Assets/TerrainClickHandler.cs" Line="28" Column="6" />
       <File FileName="Assets/Tank.cs" Line="1" Column="1" />
       <File FileName="Assets/CityScript.cs" Line="1" Column="1" />
-      <File FileName="Assets/Building.cs" Line="21" Column="1" />
+      <File FileName="Assets/Building.cs" Line="45" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

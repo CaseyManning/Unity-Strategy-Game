@@ -75,7 +75,7 @@ public class PlayerScript : NetworkBehaviour {
 		//print ("num buildings " + numBuildings);
 		if (numBuildings == 0) {
 			print ("- Disconnecting from game -");
-			Network.Disconnect ();
+			//Network.Disconnect ();
 //			NetworkLobbyManager.ServerReturnToLobby ();
 		}
 	}
@@ -123,9 +123,14 @@ public class PlayerScript : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdSpawnProjectile(GameObject go, GameObject target, float speed, Vector3 position) {
+	public void CmdSpawnProjectile(GameObject go, GameObject target, float speed, Vector3 position, int attackTeam) {
 		GameObject g = Instantiate (go);
 		NetworkServer.Spawn (g);
+//		if (PlayerScript.players[attackTeam].GetComponent<NetworkIdentity>().isServer) {
+//			g.GetComponent<NetworkIdentity>().AssignClientAuthority (PlayerScript.players[attackTeam].GetComponent<NetworkIdentity>().connectionToClient);
+//		} else {
+//			g.GetComponent<NetworkIdentity>().AssignClientAuthority (PlayerScript.players[attackTeam].GetComponent<NetworkIdentity>().connectionToServer);
+//		}
 		g.GetComponent<ProjectileScript> ().target = target;
 		g.GetComponent<ProjectileScript> ().speed = speed;
 		g.transform.position = position;
