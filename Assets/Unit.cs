@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 public class Unit : NetworkBehaviour {
 
 	public string name;
+	[SyncVar]
 	public int health = 20;
 	public int maxHealth = 20;
 	public int cost;
@@ -151,7 +152,7 @@ public class Unit : NetworkBehaviour {
 			target.GetComponent<Unit>().health -= attackDamage;
 			attackCooldown = attackSpeed;
 			//GameObject g = Instantiate (attackProjectile);
-			PlayerScript.players[team].CmdSpawnProjectile (attackProjectile, target, speed, transform.position, team);
+			PlayerScript.players[team].CmdSpawnProjectile (name, target, speed, transform.position, team);
 
 			/*
 			GameObject g = Instantiate(currentAttackTarget);

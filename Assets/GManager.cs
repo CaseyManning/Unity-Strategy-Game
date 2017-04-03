@@ -27,6 +27,8 @@ public class GManager : MonoBehaviour {
 			ClientScene.RegisterPrefab(g);
 			units.Add (g.name, g);
 		}
+			
+
 		print ("Length is " + units.Keys.Count);
 		colors.Add (0, team1);
 		colors.Add (1, team2);

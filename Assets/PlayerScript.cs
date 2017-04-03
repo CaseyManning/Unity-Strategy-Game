@@ -123,8 +123,9 @@ public class PlayerScript : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdSpawnProjectile(GameObject go, GameObject target, float speed, Vector3 position, int attackTeam) {
-		GameObject g = Instantiate (go);
+	public void CmdSpawnProjectile(string go, GameObject target, float speed, Vector3 position, int attackTeam) {
+		GameObject projectile = GManager.main.units [go].GetComponent<Unit> ().attackProjectile;
+		GameObject g = Instantiate (projectile);
 		NetworkServer.Spawn (g);
 //		if (PlayerScript.players[attackTeam].GetComponent<NetworkIdentity>().isServer) {
 //			g.GetComponent<NetworkIdentity>().AssignClientAuthority (PlayerScript.players[attackTeam].GetComponent<NetworkIdentity>().connectionToClient);
