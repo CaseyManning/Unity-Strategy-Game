@@ -152,7 +152,7 @@ public class Unit : NetworkBehaviour {
 			target.GetComponent<Unit>().health -= attackDamage;
 			attackCooldown = attackSpeed;
 			//GameObject g = Instantiate (attackProjectile);
-			PlayerScript.players[team].CmdSpawnProjectile (name, target, speed, transform.position, team);
+			PlayerScript.players[team].CmdSpawnProjectile (gameObject, attackProjectile, target, speed, transform.position, team);
 
 			/*
 			GameObject g = Instantiate(currentAttackTarget);

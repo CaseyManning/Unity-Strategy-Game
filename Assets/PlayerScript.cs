@@ -123,15 +123,17 @@ public class PlayerScript : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdSpawnProjectile(string go, GameObject target, float speed, Vector3 position, int attackTeam) {
-		GameObject projectile = GManager.main.units [go].GetComponent<Unit> ().attackProjectile;
-		GameObject g = Instantiate (projectile);
+	public void CmdSpawnProjectile(GameObject gameobj, GameObject projectile, GameObject target, float speed, Vector3 position, int attackTeam) {
+
+		print ("Gameobject is: " + projectile + ". Is it null? " + projectile == null);
+		//GameObject projectile = GManager.main.units [go].GetComponent<Unit> ().attackProjectile;
+		GameObject g = Instantiate (gameobj.GetComponent<Unit>().attackProjectile);
 		NetworkServer.Spawn (g);
-//		if (PlayerScript.players[attackTeam].GetComponent<NetworkIdentity>().isServer) {
-//			g.GetComponent<NetworkIdentity>().AssignClientAuthority (PlayerScript.players[attackTeam].GetComponent<NetworkIdentity>().connectionToClient);
-//		} else {
-//			g.GetComponent<NetworkIdentity>().AssignClientAuthority (PlayerScript.players[attackTeam].GetComponent<NetworkIdentity>().connectionToServer);
-//		}
+		if (PlayerScript.players[attackTeam].GetComponent<NetworkIdentity>().isServer) {
+			g.GetComponent<NetworkIdentity>().AssignClientAuthority (PlayerScript.players[attackTeam].GetComponent<NetworkIdentity>().connectionToClient);
+		} else {
+			g.GetComponent<NetworkIdentity>().AssignClientAuthority (PlayerScript.players[attackTeam].GetComponent<NetworkIdentity>().connectionToServer);
+		}
 		g.GetComponent<ProjectileScript> ().target = target;
 		g.GetComponent<ProjectileScript> ().speed = speed;
 		g.transform.position = position;
