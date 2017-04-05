@@ -15,6 +15,9 @@ public class GManager : MonoBehaviour {
 	public GameObject UIresourceText;
 	public static GManager main;
 	public GameObject[] unitButtons;
+	public GameObject createUnitText;
+	public GameObject moveText;
+	public bool showHints = true;
 
 	void Start () {
 		colors = new Dictionary<int, Material>();
@@ -38,8 +41,7 @@ public class GManager : MonoBehaviour {
 			print (key.ToString ());
 		}
 	}
-	
-	// Update is called once per frame
+
 //	void Update () {
 //
 //		if (PlayerScript.players == null) {
@@ -53,4 +55,24 @@ public class GManager : MonoBehaviour {
 //			}
 //		}
 //	}
+
+
+	void Update () {
+		if (showHints) {
+			if (PlayerScript.getLocalPlayer ().selected.Count > 0 && PlayerScript.getLocalPlayer ().selected [0].GetComponent<Building> () != null && PlayerScript.getLocalPlayer ().selected [0].GetComponent<Building> ().unitsSpawned.Count > 0) {
+				//display the text telling you how to create a unit
+				createUnitText.SetActive (true);
+			} else {
+				createUnitText.SetActive (false);
+			}
+
+			if (PlayerScript.getLocalPlayer ().selected.Count > 0 && PlayerScript.getLocalPlayer ().selected [0].GetComponent<Unit> ().speed > 0) {
+				//display the text telling you how to create a unit
+				print("Activating Movement text");
+				moveText.SetActive (true);
+			} else {
+				moveText.SetActive (false);
+			}
+		}
+	}
 }
