@@ -67,8 +67,7 @@ public class GManager : MonoBehaviour {
 			}
 
 			if (PlayerScript.getLocalPlayer ().selected.Count > 0 && PlayerScript.getLocalPlayer ().selected [0].GetComponent<Unit> ().speed > 0) {
-				//display the text telling you how to create a unit
-				print("Activating Movement text");
+				//display the text telling you how to move a unit
 				moveText.SetActive (true);
 			} else {
 				moveText.SetActive (false);
